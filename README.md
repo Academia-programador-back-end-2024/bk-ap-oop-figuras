@@ -1,6 +1,7 @@
 # Atividade OOP
 
-Dados três valores X, Y, Z, verifique se eles podem ser os comprimentos dos lados de um triângulo e, se forem, escreva uma mensagem informando se é um triângulo equilátero, isósceles ou escaleno.
+Dados três valores X, Y, Z, verifique se eles podem ser os comprimentos dos lados de um triângulo e,
+se forem, escreva uma mensagem informando se é um triângulo equilátero, isósceles ou escaleno.
 
 Observações:
 
