@@ -1,226 +1,108 @@
-namespace FigurasGeometricasTest
+using FigurasGeometricasBkAp2024;
+
+namespace FigurasGeometricasTest;
+
+
+
+public class TrianguloTest
 {
-    //Métodos:
-    //CalcularArea() (virtual): Retorna a área da figura.
-    //CalcularPerimetro() (virtual): Retorna o perímetro da figura.
+    /// <summary>
+    /// Dados três valores X, Y, Z, 
+    /// verifique se eles podem ser os comprimentos dos lados de um triângulo 
+    ///e, se forem, escreva uma mensagem informando se é um triângulo
+    ///equilátero, 
+    ///isósceles ou 
+    ///escaleno.
 
-    public abstract class FiguraGeometrica
+    //        Observações:
+
+    //O comprimento de um lado do triângulo é sempre menor do que a soma dos outros dois.
+
+    //- Equilátero: Todos os lados iguais.
+    //- Isósceles: Dois lados iguais.
+    //- Escaleno: Todos os lados diferentes.
+    /// </summary>
+    /// Behavior Driven Development
+    /// Test Driven Development 
+
+    [Fact]
+    public void Deve_Verificar_Que_O_Triangulo_É_Equilatero()
     {
-        public int[] Lados { get; set; }
-        public virtual decimal CalcularArea()
-        {
-            decimal area = 1;
-            foreach (var item in Lados)
-            {
-                area *= item;
-            }
-            return area;
-        }
+        //Arrange - Preparar
 
-        public abstract decimal CalcularPerimetro();
+        int x = 5, y = 5, z = 5;
+        string mensagemEsperada = "é um triângulo equilátero";
+        string mensagemResultado = string.Empty;
+        Triangulo triangulo = new Triangulo(x, y, z);
+
+        //A - Act - Ação            
+        mensagemResultado = triangulo.MensagemTipoDeTriangulo();
+
+        //A - Assert - Verificar
+        Assert.StrictEqual(mensagemEsperada, mensagemResultado);
     }
 
-    //Herança
-    public class Quadrado : FiguraGeometrica
+    [Theory]
+    [InlineData(5, 5, 4)]
+    [InlineData(4, 5, 4)]
+    [InlineData(4, 4, 5)]
+    [InlineData(4, 5, 5)]
+    public void Deve_Verificar_Que_O_Triangulo_É_Isósceles(int x, int y, int z)
     {
-        public Quadrado(int lado)
-        {
-            Lados = new int[2];
-            Lados[0] = lado;
-            Lados[1] = lado;
-        }
+        //Arrange - Preparar
+        string mensagemEsperada = "é um triângulo isósceles";
+        string mensagemResultado = string.Empty;
+        Triangulo triangulo = new Triangulo(x, y, z);
 
-        public override decimal CalcularPerimetro()
-        {
-            throw new NotImplementedException();
-        }
+        //A - Act - Ação            
+        mensagemResultado = triangulo.MensagemTipoDeTriangulo();
+
+        //A - Assert - Verificar
+        Assert.StrictEqual(mensagemEsperada, mensagemResultado);
     }
 
-    public class Triangulo : FiguraGeometrica
+    [Theory]
+    [InlineData(3, 4, 5)]
+    [InlineData(5, 4, 3)]
+    [InlineData(4, 5, 3)]
+    public void Deve_Verificar_Que_O_Triangulo_É_Escaleno(int x, int y, int z)
     {
-        private string corpoMensagem = "é um triângulo {0}";
+        //Arrange - Preparar
+        string mensagemEsperada = "é um triângulo escaleno";
+        string mensagemResultado = string.Empty;
+        Triangulo triangulo = new Triangulo(x, y, z);
 
-        private bool IsEquilatero
-        {
-            get
-            {
-                return
-                    Lados[0] == Lados[1] &&
-                    Lados[0] == Lados[2] &&
-                    Lados[1] == Lados[2];
-            }
-        }
+        //A - Act - Ação            
+        mensagemResultado = triangulo.MensagemTipoDeTriangulo();
 
-        private bool IsIsosceles
-        {
-            get
-            {
-                return (Lados[0] == Lados[1] && Lados[0] != Lados[2]) ||
-                       (Lados[0] != Lados[1] && Lados[1] == Lados[2]) ||
-                       (Lados[0] != Lados[1] && Lados[0] == Lados[2]);
-            }
-        }
+        //A - Assert - Verificar
+        Assert.StrictEqual(mensagemEsperada, mensagemResultado);
+    }
+}
 
-        private bool IsEscaleno
-        {
-            get
-            {
-                return (Lados[0] != Lados[1] && Lados[0] != Lados[2]) ||
-                       (Lados[0] != Lados[1] && Lados[1] != Lados[2]) ||
-                       (Lados[0] != Lados[1] && Lados[0] != Lados[2]);
-            }
-        }
+public class FiguraGeometricaTest
+{
+    [Fact]
+    public void Deve_Calcular_Area_De_Uma_Figura()
+    {
 
-        public Triangulo(int ladoX, int ladoY, int ladoZ)
-        {
-            Lados = new int[3];
-            Lados[0] = ladoX;
-            Lados[1] = ladoY;
-            Lados[2] = ladoZ;
-        }
+        FiguraGeometrica quadrado = new Quadrado(10);
 
-        public string MensagemTipoDeTriangulo()
-        {
-            if (IsEquilatero)
-            {
-                return string.Format(corpoMensagem, "equilátero");
-            }
-            if (IsIsosceles)
-            {
-                return string.Format(corpoMensagem, "isósceles");
-            }
-            if (IsEscaleno)
-            {
-                return string.Format(corpoMensagem, "escaleno");
-            }
-            return string.Empty;
-        }
+        var area = quadrado.CalcularArea();
 
-        public override decimal CalcularArea()
-        {
+        Assert.Equal(100, area);
 
-            if (IsEquilatero)
-            {
-                //TODO
-            }
-            if (IsIsosceles)
-            {
-                //TODO
-            }
-            if (IsEscaleno)
-            {
-                //TODO
-            }
-            //UM calculo não é real.
-            return base.CalcularArea() / 2;
-        }
-
-        public override decimal CalcularPerimetro()
-        {
-            throw new NotImplementedException();
-        }
     }
 
-    public class TrianguloTest
+    [Fact]
+    public void Deve_Calcular_Area_De_Uma_Figura_Triangulo()
     {
-        /// <summary>
-        /// Dados três valores X, Y, Z, 
-        /// verifique se eles podem ser os comprimentos dos lados de um triângulo 
-        ///e, se forem, escreva uma mensagem informando se é um triângulo
-        ///equilátero, 
-        ///isósceles ou 
-        ///escaleno.
 
-        //        Observações:
+        FiguraGeometrica triangulo = new Triangulo(10, 10, 10);
 
-        //O comprimento de um lado do triângulo é sempre menor do que a soma dos outros dois.
+        var area = triangulo.CalcularArea();
 
-        //- Equilátero: Todos os lados iguais.
-        //- Isósceles: Dois lados iguais.
-        //- Escaleno: Todos os lados diferentes.
-        /// </summary>
-        /// Behavior Driven Development
-        /// Test Driven Development 
+        Assert.Equal(500, area);
 
-        [Fact]
-        public void Deve_Verificar_Que_O_Triangulo_É_Equilatero()
-        {
-            //Arrange - Preparar
-
-            int x = 5, y = 5, z = 5;
-            string mensagemEsperada = "é um triângulo equilátero";
-            string mensagemResultado = string.Empty;
-            Triangulo triangulo = new Triangulo(x, y, z);
-
-            //A - Act - Ação            
-            mensagemResultado = triangulo.MensagemTipoDeTriangulo();
-
-            //A - Assert - Verificar
-            Assert.StrictEqual(mensagemEsperada, mensagemResultado);
-        }
-
-        [Theory]
-        [InlineData(5, 5, 4)]
-        [InlineData(4, 5, 4)]
-        [InlineData(4, 4, 5)]
-        [InlineData(4, 5, 5)]
-        public void Deve_Verificar_Que_O_Triangulo_É_Isósceles(int x, int y, int z)
-        {
-            //Arrange - Preparar
-            string mensagemEsperada = "é um triângulo isósceles";
-            string mensagemResultado = string.Empty;
-            Triangulo triangulo = new Triangulo(x, y, z);
-
-            //A - Act - Ação            
-            mensagemResultado = triangulo.MensagemTipoDeTriangulo();
-
-            //A - Assert - Verificar
-            Assert.StrictEqual(mensagemEsperada, mensagemResultado);
-        }
-
-        [Theory]
-        [InlineData(3, 4, 5)]
-        [InlineData(5, 4, 3)]
-        [InlineData(4, 5, 3)]
-        public void Deve_Verificar_Que_O_Triangulo_É_Escaleno(int x, int y, int z)
-        {
-            //Arrange - Preparar
-            string mensagemEsperada = "é um triângulo escaleno";
-            string mensagemResultado = string.Empty;
-            Triangulo triangulo = new Triangulo(x, y, z);
-
-            //A - Act - Ação            
-            mensagemResultado = triangulo.MensagemTipoDeTriangulo();
-
-            //A - Assert - Verificar
-            Assert.StrictEqual(mensagemEsperada, mensagemResultado);
-        }
-    }
-
-    public class FiguraGeometricaTest
-    {
-        [Fact]
-        public void Deve_Calcular_Area_De_Uma_Figura()
-        {
-
-            FiguraGeometrica quadrado = new Quadrado(10);
-
-            var area = quadrado.CalcularArea();
-
-            Assert.Equal(100, area);
-
-        }
-
-        [Fact]
-        public void Deve_Calcular_Area_De_Uma_Figura_Triangulo()
-        {
-
-            FiguraGeometrica triangulo = new Triangulo(10, 10, 10);
-
-            var area = triangulo.CalcularArea();
-
-            Assert.Equal(500, area);
-
-        }
     }
 }
